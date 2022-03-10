@@ -2,6 +2,7 @@ import {Dispatch, SetStateAction} from 'react';
 
 import {Button, Form} from 'semantic-ui-react';
 import {FormikValues, useFormik} from 'formik';
+import * as Yup from 'yup';
 
 import {IRegisterUserInput} from '../../../interfaces/interfaces';
 
@@ -24,12 +25,29 @@ export const RegisterForm = (props: IProps) => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: null,
+    validationSchema: Yup.object({
+      name: Yup.string()
+          .required('El nombre es obligatorio'),
+      username: Yup.string()
+          .matches(
+              /^[a-zA-Z0-9-]*$/,
+              'El nombre del usuario no puede tener espacio',
+          )
+          .required('El nombre de usuario es obligatorio'),
+      email: Yup.string()
+          .email('El email no es valido')
+          .required('El email es obligatorio'),
+      password: Yup.string()
+          .required('La contraseña es obligatorio')
+          .oneOf([Yup.ref('repeatPassword')], 'Las contraseñas no son iguales'),
+      repeatPassword: Yup.string()
+          .required('La contraseña es obligatorio')
+          .oneOf([Yup.ref('password')], 'Las contraseñas no son iguales'),
+    }),
     onSubmit: (formValue: FormikValues) => {
       console.log(formValue);
     },
   });
-
   return (
     <>
       <h2 className="register-form-title">
@@ -42,6 +60,7 @@ export const RegisterForm = (props: IProps) => {
           name="name"
           value={formik.values.name}
           onChange={formik.handleChange}
+          error={formik.touched.name && formik.errors.name}
         />
 
         <Form.Input
@@ -50,6 +69,7 @@ export const RegisterForm = (props: IProps) => {
           name="username"
           value={formik.values.username}
           onChange={formik.handleChange}
+          error={formik.touched.username && formik.errors.username}
         />
 
         <Form.Input
@@ -58,6 +78,7 @@ export const RegisterForm = (props: IProps) => {
           name="email"
           value={formik.values.email}
           onChange={formik.handleChange}
+          error={formik.touched.email && formik.errors.email}
         />
 
         <Form.Input
@@ -66,6 +87,7 @@ export const RegisterForm = (props: IProps) => {
           name="password"
           value={formik.values.password}
           onChange={formik.handleChange}
+          error={formik.touched.password && formik.errors.password}
         />
 
         <Form.Input
@@ -74,12 +96,10 @@ export const RegisterForm = (props: IProps) => {
           name="repeatPassword"
           value={formik.values.repeatPassword}
           onChange={formik.handleChange}
+          error={formik.touched.repeatPassword && formik.errors.repeatPassword}
         />
 
         <Button type="submit" className="btn-submit">Registrarse</Button>
-        <Button type="button" onClick={formik.handleReset}>
-          Reiniciar formulario
-        </Button>
       </Form>
     </>
   );
