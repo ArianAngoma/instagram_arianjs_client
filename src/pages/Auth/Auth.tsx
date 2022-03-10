@@ -5,8 +5,10 @@ import {Container, Image} from 'semantic-ui-react';
 import instaclone from '../../assets/png/instaclone.png';
 import './Auth.scss';
 
+import {RegisterForm} from '../../components/Auth/RegisterForm';
+
 export const Auth = () => {
-  const [showLogin, setShowLogin] = useState<Boolean>(true);
+  const [showLogin, setShowLogin] = useState<Boolean>(false);
 
   const handleAuthPage = () => setShowLogin(!showLogin);
 
@@ -18,7 +20,7 @@ export const Auth = () => {
         {showLogin ? (
           <p>Formulario de Login</p>
         ) : (
-          <p>Formulatio de Registro</p>
+          <RegisterForm setShowLogin={setShowLogin}/>
         )}
       </div>
 

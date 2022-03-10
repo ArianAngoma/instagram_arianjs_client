@@ -4,3 +4,10 @@ body {
   background-color: $background-grey-light;
 }
 
+.ui.form {
+  .btn-submit {
+    width: 100%;
+    background-color: $action;
+    color: $font-light;
+  }
+}
