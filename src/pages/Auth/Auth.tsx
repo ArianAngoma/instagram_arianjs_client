@@ -6,9 +6,10 @@ import instaclone from '../../assets/png/instaclone.png';
 import './Auth.scss';
 
 import {RegisterForm} from '../../components/Auth/RegisterForm';
+import {LoginForm} from '../../components/Auth/LoginForm';
 
 export const Auth = () => {
-  const [showLogin, setShowLogin] = useState<Boolean>(false);
+  const [showLogin, setShowLogin] = useState<Boolean>(true);
 
   const handleAuthPage = () => setShowLogin(!showLogin);
 
@@ -18,7 +19,7 @@ export const Auth = () => {
 
       <div className="container-form">
         {showLogin ? (
-          <p>Formulario de Login</p>
+          <LoginForm/>
         ) : (
           <RegisterForm setShowLogin={setShowLogin}/>
         )}
