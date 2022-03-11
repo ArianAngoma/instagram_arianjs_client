@@ -4,6 +4,7 @@ import {useMutation} from '@apollo/client';
 import {Button, Form} from 'semantic-ui-react';
 import {FormikValues, useFormik} from 'formik';
 import * as Yup from 'yup';
+import {toast} from 'react-toastify';
 
 import {IRegisterUserInput, IUser} from '../../../interfaces/interfaces';
 
@@ -63,10 +64,14 @@ export const RegisterForm = (props: IProps) => {
             },
           },
         });
-        console.log(result);
+        toast.success('Usuario registrado correctamente');
+        setShowLogin(true);
       } catch (error) {
-        console.log(error);
-        if (error instanceof Error) console.log(error.message);
+        if (error instanceof Error) {
+          console.log(error.message);
+          toast.error(error.message);
+        }
+        ;
       }
     },
   });
