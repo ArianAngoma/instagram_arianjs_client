@@ -16,3 +16,8 @@ export interface IRegisterUserInput extends Pick<IUser, 'name' | 'username' | 'e
 }
 
 export type ILoginUserInput = Pick<IUser, 'email' | 'password'>
+
+export interface IResultAuth {
+  user: IUser;
+  token: string;
+}

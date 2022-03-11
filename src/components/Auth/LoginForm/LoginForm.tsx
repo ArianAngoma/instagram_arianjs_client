@@ -3,13 +3,13 @@ import {useState} from 'react';
 import {useMutation} from '@apollo/client';
 import {Button, Form} from 'semantic-ui-react';
 import {FormikValues, useFormik} from 'formik';
-
 import * as Yup from 'yup';
-
-import {ILoginUserInput, IUser} from '../../../interfaces/interfaces';
-
 import './LoginForm.scss';
+
+import {ILoginUserInput, IResultAuth} from '../../../interfaces/interfaces';
+
 import {LOGIN} from '../../../gql/user';
+import {setToken} from '../../../utils/token';
 
 const initialValues: ILoginUserInput = {
   email: '',
@@ -26,7 +26,7 @@ const validationSchema = Yup.object({
 
 export const LoginForm = () => {
   const [error, setError] = useState<String>('');
-  const [login] = useMutation<IUser, { input: ILoginUserInput }>(LOGIN);
+  const [login] = useMutation<{ login: IResultAuth }, { input: ILoginUserInput }>(LOGIN);
 
   const formik = useFormik({
     initialValues,
@@ -34,7 +34,7 @@ export const LoginForm = () => {
     onSubmit: async (formData: FormikValues) => {
       setError('');
       try {
-        const result = await login({
+        const {data} = await login({
           variables: {
             input: {
               email: formData.email,
@@ -42,7 +42,7 @@ export const LoginForm = () => {
             },
           },
         });
-        console.log(result);
+        setToken(data!.login.token);
       } catch (error) {
         if (error instanceof Error) {
           console.log(error.message);

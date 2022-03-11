@@ -5,10 +5,9 @@ import {Button, Form} from 'semantic-ui-react';
 import {FormikValues, useFormik} from 'formik';
 import * as Yup from 'yup';
 import {toast} from 'react-toastify';
-
-import {IRegisterUserInput, IUser} from '../../../interfaces/interfaces';
-
 import './RegisterForm.scss';
+
+import {IRegisterUserInput, IResultAuth} from '../../../interfaces/interfaces';
 
 import {REGISTER} from '../../../gql/user';
 
@@ -47,7 +46,7 @@ const validationSchema = Yup.object({
 export const RegisterForm = (props: IProps) => {
   const {setShowLogin} = props;
 
-  const [register] = useMutation<IUser, { input: Omit<IRegisterUserInput, 'repeatPassword'> }>(REGISTER);
+  const [register] = useMutation<{ register: IResultAuth }, { input: Omit<IRegisterUserInput, 'repeatPassword'> }>(REGISTER);
 
   const formik = useFormik({
     initialValues,
