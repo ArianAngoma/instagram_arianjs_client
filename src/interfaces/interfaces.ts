@@ -14,3 +14,5 @@ export interface IUser {
 export interface IRegisterUserInput extends Pick<IUser, 'name' | 'username' | 'email' | 'password'> {
   repeatPassword: string;
 }
+
+export type ILoginUserInput = Pick<IUser, 'email' | 'password'>
