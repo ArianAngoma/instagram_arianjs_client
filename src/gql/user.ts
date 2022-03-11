@@ -18,3 +18,22 @@ export const REGISTER = gql`
         }
     }
 `;
+
+export const LOGIN = gql`
+    mutation Login($input: LoginInput) {
+        login(input: $input) {
+            user {
+                id
+                name
+                username
+                email
+                description
+                web
+                avatar
+                createdAt
+                updatedAt
+            }
+            token
+        }
+    }
+`;

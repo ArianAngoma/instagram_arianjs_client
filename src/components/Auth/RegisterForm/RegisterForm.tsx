@@ -71,7 +71,6 @@ export const RegisterForm = (props: IProps) => {
           console.log(error.message);
           toast.error(error.message);
         }
-        ;
       }
     },
   });
