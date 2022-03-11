@@ -1,12 +1,15 @@
 import {Dispatch, SetStateAction} from 'react';
 
+import {useMutation} from '@apollo/client';
 import {Button, Form} from 'semantic-ui-react';
 import {FormikValues, useFormik} from 'formik';
 import * as Yup from 'yup';
 
-import {IRegisterUserInput} from '../../../interfaces/interfaces';
+import {IRegisterUserInput, IUser} from '../../../interfaces/interfaces';
 
 import './RegisterForm.scss';
+
+import {REGISTER} from '../../../gql/user';
 
 interface IProps {
   setShowLogin: Dispatch<SetStateAction<Boolean>>;
@@ -20,32 +23,51 @@ const initialValues: IRegisterUserInput = {
   repeatPassword: '',
 };
 
+const validationSchema = Yup.object({
+  name: Yup.string()
+      .required('El nombre es obligatorio'),
+  username: Yup.string()
+      .matches(
+          /^[a-zA-Z0-9-]*$/,
+          'El nombre del usuario no puede tener espacio',
+      )
+      .required('El nombre de usuario es obligatorio'),
+  email: Yup.string()
+      .email('El email no es valido')
+      .required('El email es obligatorio'),
+  password: Yup.string()
+      .required('La contraseña es obligatorio')
+      .oneOf([Yup.ref('repeatPassword')], 'Las contraseñas no son iguales'),
+  repeatPassword: Yup.string()
+      .required('La contraseña es obligatorio')
+      .oneOf([Yup.ref('password')], 'Las contraseñas no son iguales'),
+});
+
 export const RegisterForm = (props: IProps) => {
   const {setShowLogin} = props;
 
+  const [register] = useMutation<IUser, { input: Omit<IRegisterUserInput, 'repeatPassword'> }>(REGISTER);
+
   const formik = useFormik({
     initialValues,
-    validationSchema: Yup.object({
-      name: Yup.string()
-          .required('El nombre es obligatorio'),
-      username: Yup.string()
-          .matches(
-              /^[a-zA-Z0-9-]*$/,
-              'El nombre del usuario no puede tener espacio',
-          )
-          .required('El nombre de usuario es obligatorio'),
-      email: Yup.string()
-          .email('El email no es valido')
-          .required('El email es obligatorio'),
-      password: Yup.string()
-          .required('La contraseña es obligatorio')
-          .oneOf([Yup.ref('repeatPassword')], 'Las contraseñas no son iguales'),
-      repeatPassword: Yup.string()
-          .required('La contraseña es obligatorio')
-          .oneOf([Yup.ref('password')], 'Las contraseñas no son iguales'),
-    }),
-    onSubmit: (formValue: FormikValues) => {
-      console.log(formValue);
+    validationSchema,
+    onSubmit: async (formData: FormikValues) => {
+      try {
+        const result = await register({
+          variables: {
+            input: {
+              name: formData.name,
+              username: formData.username,
+              email: formData.email,
+              password: formData.password,
+            },
+          },
+        });
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+        if (error instanceof Error) console.log(error.message);
+      }
     },
   });
   return (
