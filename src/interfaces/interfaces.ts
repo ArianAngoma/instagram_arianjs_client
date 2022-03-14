@@ -21,3 +21,9 @@ export interface IResultAuth {
   user: IUser;
   token: string;
 }
+
+export interface IUserState {
+  checking: boolean;
+  id?: string;
+  name?: string;
+}

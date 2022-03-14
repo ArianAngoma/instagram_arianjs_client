@@ -5,6 +5,7 @@ import {Button, Form} from 'semantic-ui-react';
 import {FormikValues, useFormik} from 'formik';
 import * as Yup from 'yup';
 import {toast} from 'react-toastify';
+
 import './RegisterForm.scss';
 
 import {IRegisterUserInput, IResultAuth} from '../../../interfaces/interfaces';
@@ -48,31 +49,34 @@ export const RegisterForm = (props: IProps) => {
 
   const [register] = useMutation<{ register: IResultAuth }, { input: Omit<IRegisterUserInput, 'repeatPassword'> }>(REGISTER);
 
+  const onSubmit = async (values: FormikValues) => {
+    try {
+      await register({
+        variables: {
+          input: {
+            name: values.name,
+            username: values.username,
+            email: values.email,
+            password: values.password,
+          },
+        },
+      });
+      toast.success('Usuario registrado correctamente');
+      setShowLogin(true);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+        toast.error(error.message);
+      }
+    }
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async (formData: FormikValues) => {
-      try {
-        const result = await register({
-          variables: {
-            input: {
-              name: formData.name,
-              username: formData.username,
-              email: formData.email,
-              password: formData.password,
-            },
-          },
-        });
-        toast.success('Usuario registrado correctamente');
-        setShowLogin(true);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.log(error.message);
-          toast.error(error.message);
-        }
-      }
-    },
+    onSubmit,
   });
+
   return (
     <>
       <h2 className="register-form-title">
