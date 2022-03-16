@@ -1,10 +1,11 @@
 import {createContext} from 'react';
 
-import {IUserState} from '../../interfaces/interfaces';
+import {IUser, IUserState} from '../../interfaces/interfaces';
 
 export type AuthContextProps = {
   authState: IUserState,
-  authLogin: (id: string, name: string) => void
+  authCheckingFinish: () => void
+  authLogin: ({id, name, username, email}: Partial<IUser>) => void
 }
 
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);

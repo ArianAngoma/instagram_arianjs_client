@@ -45,7 +45,14 @@ export const LoginForm = () => {
         },
       });
       setToken(data!.login.token);
-      authLogin(data!.login.user.id, data!.login.user.name);
+      authLogin(
+          {
+            id: data!.login.user.id,
+            name: data!.login.user.name,
+            username: data!.login.user.username,
+            email: data!.login.user.email,
+          },
+      );
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);

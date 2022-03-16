@@ -22,8 +22,6 @@ export interface IResultAuth {
   token: string;
 }
 
-export interface IUserState {
+export interface IUserState extends Partial<IUser> {
   checking: boolean;
-  id?: string;
-  name?: string;
 }

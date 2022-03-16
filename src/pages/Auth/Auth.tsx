@@ -5,8 +5,7 @@ import {Container, Image} from 'semantic-ui-react';
 import instaclone from '../../assets/png/instaclone.png';
 import './Auth.scss';
 
-import {RegisterForm} from '../../components/Auth/RegisterForm/RegisterForm';
-import {LoginForm} from '../../components/Auth/LoginForm/LoginForm';
+import {LoginForm, RegisterForm} from '../../components';
 
 export const Auth = () => {
   const [showLogin, setShowLogin] = useState<Boolean>(true);

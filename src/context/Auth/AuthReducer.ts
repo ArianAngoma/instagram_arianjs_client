@@ -1,8 +1,8 @@
-import {IUserState} from '../../interfaces/interfaces';
+import {IUser, IUserState} from '../../interfaces/interfaces';
 
 type AuthAction =
-  | { type: 'authLogin', payload: { id: string, name: string } }
-  | { type: 'authCheckingFinish', payload: { checking: boolean } }
+  | { type: 'authLogin', payload: Partial<IUser> }
+  | { type: 'authCheckingFinish'}
   | { type: 'authLogout', payload: { checking: boolean } }
 
 export const AuthReducer = (state: IUserState, action: AuthAction): IUserState => {

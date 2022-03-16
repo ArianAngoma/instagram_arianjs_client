@@ -37,3 +37,22 @@ export const LOGIN = gql`
         }
     }
 `;
+
+export const RENEWTOKEN = gql`
+    mutation RenewToken {
+        renewToken {
+            user {
+                id
+                name
+                username
+                email
+                description
+                web
+                avatar
+                createdAt
+                updatedAt
+            }
+            token
+        }
+    }
+`;

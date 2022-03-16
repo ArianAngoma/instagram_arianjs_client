@@ -3,7 +3,7 @@ import {ToastContainer} from 'react-toastify';
 
 import client from './config/apollo';
 import {AuthProvider} from './context/Auth/AuthProvider';
-import {AppRouter} from './router/AppRouter';
+import {AppRouter} from './routes/AppRouter';
 
 export default function App() {
   return (

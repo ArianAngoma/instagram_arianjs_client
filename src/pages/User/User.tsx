@@ -1,17 +1,18 @@
+import {useParams} from 'react-router-dom';
 import {Container} from 'semantic-ui-react';
-
-import './Home.scss';
 
 import {LayoutBasic} from '../../layouts/LayoutBasic';
 
-export const Home = () => {
+export const User = () => {
+  const params = useParams();
+  console.log(params);
+
   return (
     <>
       <LayoutBasic/>
-      <Container className="layout-basic">
-        <h1>Home</h1>
+      <Container>
+        <h1>User</h1>
       </Container>
-
     </>
   );
 };
