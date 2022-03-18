@@ -17,11 +17,10 @@ export interface IRegisterUserInput extends Pick<IUser, 'name' | 'username' | 'e
 
 export type ILoginUserInput = Pick<IUser, 'email' | 'password'>
 
-export interface IResultAuth {
-  user: IUser;
-  token: string;
-}
-
 export interface IUserState extends Partial<IUser> {
   checking: boolean;
+}
+
+export interface IParams {
+  username: string;
 }

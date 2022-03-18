@@ -1,6 +1,6 @@
 import {Dispatch, SetStateAction} from 'react';
 
-import {useMutation} from '@apollo/client';
+import {ApolloError, useMutation} from '@apollo/client';
 import {Button, Form} from 'semantic-ui-react';
 import {FormikValues, useFormik} from 'formik';
 import * as Yup from 'yup';
@@ -8,7 +8,7 @@ import {toast} from 'react-toastify';
 
 import './RegisterForm.scss';
 
-import {IRegisterUserInput, IResultAuth} from '../../../interfaces/interfaces';
+import {IRegisterUserInput} from '../../../interfaces/interfaces';
 
 import {REGISTER} from '../../../gql/user';
 
@@ -47,28 +47,25 @@ const validationSchema = Yup.object({
 export const RegisterForm = (props: IProps) => {
   const {setShowLogin} = props;
 
-  const [register] = useMutation<{ register: IResultAuth }, { input: Omit<IRegisterUserInput, 'repeatPassword'> }>(REGISTER);
+  const [register] = useMutation(REGISTER);
 
-  const onSubmit = async (values: FormikValues) => {
-    try {
-      await register({
-        variables: {
-          input: {
-            name: values.name,
-            username: values.username,
-            email: values.email,
-            password: values.password,
-          },
+  const onSubmit = (values: FormikValues) => {
+    register({
+      variables: {
+        input: {
+          name: values.name,
+          username: values.username,
+          email: values.email,
+          password: values.password,
         },
-      });
+      },
+    }).then(({data}) => {
       toast.success('Usuario registrado correctamente');
       setShowLogin(true);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-        toast.error(error.message);
-      }
-    }
+    }).catch((error: ApolloError) => {
+      console.log(error.message);
+      toast.error(error.message);
+    });
   };
 
   const formik = useFormik({

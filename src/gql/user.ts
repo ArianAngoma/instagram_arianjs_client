@@ -56,3 +56,19 @@ export const RENEWTOKEN = gql`
         }
     }
 `;
+
+export const GET_USER = gql`
+    query GetUser($id: ID, $email: String, $username: String) {
+        getUser(id: $id, email: $email, username: $username) {
+            id
+            name
+            username
+            email
+            description
+            web
+            avatar
+            createdAt
+            updatedAt
+        }
+    }
+`;

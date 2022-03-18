@@ -1,6 +1,6 @@
-import {useCallback, useContext, useEffect} from 'react';
+import {useContext, useEffect} from 'react';
 
-import {useMutation} from '@apollo/client';
+import {ApolloError, useMutation} from '@apollo/client';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import './AppRouter.scss';
@@ -14,35 +14,23 @@ import {RENEWTOKEN} from '../gql/user';
 
 export const AppRouter = () => {
   const {authState, authLogin, authCheckingFinish} = useContext(AuthContext);
-
   const [renewToken] = useMutation(RENEWTOKEN);
 
-  const fetchRenewToken = useCallback(async () => {
-    try {
-      const {data} = await renewToken();
-
-      setToken(data!.renewToken.token);
-      authLogin({
-        id: data!.renewToken.user.id,
-        name: data!.renewToken.user.name,
-        username: data!.renewToken.user.username,
-        email: data!.renewToken.user.email,
-      });
-    } catch (e) {
-      console.log(e);
-      authCheckingFinish();
-    }
-  }, []);
-
   useEffect(() => {
-    fetchRenewToken();
+    renewToken().then(({data}) => {
+      setToken(data.renewToken.token);
+      authLogin({
+        id: data.renewToken.user.id,
+        name: data.renewToken.user.name,
+        username: data.renewToken.user.username,
+        email: data.renewToken.user.email,
+      });
+    }).catch((error: ApolloError) => {
+      return authCheckingFinish();
+    });
   }, []);
 
-  if (authState.checking) {
-    return (
-      <div className="spinner"></div>
-    );
-  }
+  if (authState.checking) return <div className="spinner"></div>;
 
   return (
     <Router>

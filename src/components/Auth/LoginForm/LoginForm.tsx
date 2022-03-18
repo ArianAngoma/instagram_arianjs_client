@@ -1,13 +1,13 @@
 import {useContext, useState} from 'react';
 
-import {useMutation} from '@apollo/client';
+import {ApolloError, useMutation} from '@apollo/client';
 import {Button, Form} from 'semantic-ui-react';
 import {FormikValues, useFormik} from 'formik';
 import * as Yup from 'yup';
 
 import './LoginForm.scss';
 
-import {ILoginUserInput, IResultAuth} from '../../../interfaces/interfaces';
+import {ILoginUserInput} from '../../../interfaces/interfaces';
 
 import {LOGIN} from '../../../gql/user';
 import {setToken} from '../../../utils/token';
@@ -30,37 +30,32 @@ export const LoginForm = () => {
   const [notification, setNotification] = useState<String>('');
   const {authLogin} = useContext(AuthContext);
 
-  const [login] = useMutation<{ login: IResultAuth }, { input: ILoginUserInput }>(LOGIN);
+  const [login] = useMutation(LOGIN);
 
-  const onSubmit = async (values: FormikValues) => {
+  const onSubmit = (values: FormikValues) => {
     setNotification('');
 
-    try {
-      const {data} = await login({
-        variables: {
-          input: {
-            email: values.email,
-            password: values.password,
-          },
+    login({
+      variables: {
+        input: {
+          email: values.email,
+          password: values.password,
         },
-      });
-      setToken(data!.login.token);
+      },
+    }).then(({data}) => {
+      setToken(data.login.token);
       authLogin(
           {
-            id: data!.login.user.id,
-            name: data!.login.user.name,
-            username: data!.login.user.username,
-            email: data!.login.user.email,
+            id: data.login.user.id,
+            name: data.login.user.name,
+            username: data.login.user.username,
+            email: data.login.user.email,
           },
       );
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-        setNotification(error.message);
-      }
-    }
+    }).catch((error: ApolloError) => {
+      return setNotification(error.message);
+    });
   };
-
 
   const formik = useFormik({
     initialValues,
