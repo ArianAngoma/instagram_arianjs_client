@@ -6,7 +6,7 @@ interface IProps {
   showModal: boolean;
   setShowModal: (showModal: boolean) => void ;
   title?: string;
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element | JSX.Element[] | null;
 }
 
 export const ModalBasic = (props: IProps) => {
