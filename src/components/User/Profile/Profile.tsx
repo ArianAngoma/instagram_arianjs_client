@@ -3,13 +3,13 @@ import {useContext, useState} from 'react';
 import {useQuery} from '@apollo/client';
 import {Grid, Image} from 'semantic-ui-react';
 import './Profile.scss';
-import ImageNoFound from '../../assets/png/avatar.png';
+import ImageNoFound from '../../../assets/png/avatar.png';
 
-import {GET_USER} from '../../gql/user';
-import {UserNotFound} from '../UserNotFound/UserNotFound';
-import {ModalBasic} from '../Modal/ModalBasic/ModalBasic';
-import {AvatarForm} from '../User/AvatarForm/AvatarForm';
-import {AuthContext} from '../../context/Auth/AuthContext';
+import {GET_USER} from '../../../gql/user';
+import {UserNotFound} from '../../UserNotFound/UserNotFound';
+import {ModalBasic} from '../../Modal/ModalBasic/ModalBasic';
+import {AvatarForm} from '../AvatarForm/AvatarForm';
+import {AuthContext} from '../../../context/Auth/AuthContext';
 
 interface IProps {
   username: string;
