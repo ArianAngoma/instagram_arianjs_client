@@ -1,4 +1,6 @@
+import {useCallback} from 'react';
 import {Button} from 'semantic-ui-react';
+import {useDropzone} from 'react-dropzone';
 import './AvatarForm.scss';
 
 interface IProps {
@@ -6,9 +8,21 @@ interface IProps {
 }
 
 export const AvatarForm = ({setShowModal}: IProps) => {
+  const onDrop = useCallback((acceptedFile) => {
+    console.log(acceptedFile);
+  }, []);
+
+  const {getRootProps, getInputProps} = useDropzone({
+    accept: 'image/jpeg, image/png',
+    noKeyboard: true,
+    multiple: false,
+    onDrop,
+  });
+
   return (
     <div className="avatar-form">
-      <Button>
+      {/* @ts-ignore */}
+      <Button {...getRootProps()}>
         Cargar una foto
       </Button>
 
@@ -19,6 +33,8 @@ export const AvatarForm = ({setShowModal}: IProps) => {
       <Button onClick={() => setShowModal(false)}>
         Cancelar
       </Button>
+
+      <input {...getInputProps()}/>
     </div>
   );
 };
