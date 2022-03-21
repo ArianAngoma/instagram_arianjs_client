@@ -1,9 +1,14 @@
 import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
+import {createUploadLink} from 'apollo-upload-client';
 
 import {getToken} from '../utils/token';
 
-const httpLink = createHttpLink({
+/* const httpLink = createHttpLink({
+  uri: import.meta.env.VITE_APP_APOLLO_SERVER,
+}); */
+
+const httpLink = createUploadLink({
   uri: import.meta.env.VITE_APP_APOLLO_SERVER,
 });
 
