@@ -11,6 +11,7 @@ import {ModalBasic} from '../../Modal/ModalBasic/ModalBasic';
 import {AvatarForm} from '../AvatarForm/AvatarForm';
 import {AuthContext} from '../../../context/Auth/AuthContext';
 import {HeaderProfile} from './HeaderProfile/HeaderProfile';
+import {SettingsForm} from '../SettingsForm/SettingsForm';
 
 interface IProps {
   username: string;
@@ -49,9 +50,7 @@ export const Profile = ({username}: IProps) => {
       case 'settings':
         setTitleModal('');
         setChildrenModal(
-            <div>
-              <h2>Ajustes del perfíl</h2>
-            </div>,
+            <SettingsForm setShowModal={setShowModal}/>,
         );
         setShowModal(true);
         break;
