@@ -24,11 +24,17 @@ export const AuthProvider = ({children}: props) => {
     dispatch({type: 'authCheckingFinish'});
   };
 
+  const authLogout = () => {
+    localStorage.removeItem('token');
+    dispatch({type: 'authLogout'});
+  };
+
   return (
     <AuthContext.Provider value={{
       authState,
       authCheckingFinish,
       authLogin,
+      authLogout,
     }}>
       {children}
     </AuthContext.Provider>
