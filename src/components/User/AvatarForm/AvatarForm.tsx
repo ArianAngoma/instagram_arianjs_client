@@ -1,11 +1,12 @@
-import {useCallback, useState} from 'react';
+import {useCallback, useContext, useState} from 'react';
 import {ApolloError, useMutation} from '@apollo/client';
 import {Button} from 'semantic-ui-react';
 import {useDropzone} from 'react-dropzone';
 import {toast} from 'react-toastify';
 import './AvatarForm.scss';
 
-import {UPDATE_AVATAR} from '../../../gql/user';
+import {GET_USER, UPDATE_AVATAR} from '../../../gql/user';
+import {AuthContext} from '../../../context/Auth/AuthContext';
 
 interface IProps {
   setShowModal: (showModal: boolean) => void;
@@ -13,7 +14,31 @@ interface IProps {
 
 export const AvatarForm = ({setShowModal}: IProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [updateAvatar] = useMutation(UPDATE_AVATAR);
+  const {authState} = useContext(AuthContext);
+  const [updateAvatar] = useMutation(UPDATE_AVATAR, {
+    update(cache, {data: {updateAvatar}}) {
+      // console.log(updateAvatar);
+      const {getUser} = cache.readQuery({
+        query: GET_USER,
+        variables: {
+          username: authState.username,
+        },
+      }) as any;
+
+      cache.writeQuery({
+        query: GET_USER,
+        variables: {
+          username: authState.username,
+        },
+        data: {
+          getUser: {
+            ...getUser,
+            avatar: updateAvatar.urlAvatar,
+          },
+        },
+      });
+    },
+  });
 
   const onDrop = useCallback((acceptedFile) => {
     const file = acceptedFile[0];

@@ -53,7 +53,7 @@ export const Profile = ({username}: IProps) => {
           className="profile__left"
         >
           <Image
-            src={ImageNoFound}
+            src={getUser.avatar ? getUser.avatar : ImageNoFound}
             avatar
             onClick={() => username === authState.username &&
               handlerModal('avatar')}
