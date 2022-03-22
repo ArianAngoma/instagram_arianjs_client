@@ -16,12 +16,15 @@ interface IProps {
   username: string;
 }
 
-type ITypeModal = 'avatar';
+export type ITypeModal = 'avatar' | 'settings';
 
 export const Profile = ({username}: IProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [titleModal, setTitleModal] = useState<string>('');
-  const [typeModal, setTypeModal] = useState<ITypeModal>('avatar');
+  const [
+    childrenModal,
+    setChildrenModal,
+  ] = useState<JSX.Element | JSX.Element[] | null>(null);
   const {authState} = useContext(AuthContext);
 
   const {data, loading, error} = useQuery(GET_USER, {
@@ -38,7 +41,18 @@ export const Profile = ({username}: IProps) => {
     switch (typeModal) {
       case 'avatar':
         setTitleModal('Cambiar foto de perfil');
-        setTypeModal(typeModal);
+        setChildrenModal(
+            <AvatarForm setShowModal={setShowModal}/>,
+        );
+        setShowModal(true);
+        break;
+      case 'settings':
+        setTitleModal('');
+        setChildrenModal(
+            <div>
+              <h2>Ajustes del perfíl</h2>
+            </div>,
+        );
         setShowModal(true);
         break;
       default:
@@ -65,7 +79,11 @@ export const Profile = ({username}: IProps) => {
           width={11}
           className="profile__right"
         >
-          <HeaderProfile getUser={getUser} auth={authState}/>
+          <HeaderProfile
+            getUser={getUser}
+            auth={authState}
+            handlerModal={handlerModal}
+          />
 
           <div>
             Followers
@@ -101,8 +119,7 @@ export const Profile = ({username}: IProps) => {
         title={titleModal}
       >
         {
-          (typeModal === 'avatar') ?
-            <AvatarForm setShowModal={setShowModal}/> : null
+          childrenModal
         }
       </ModalBasic>
     </>
