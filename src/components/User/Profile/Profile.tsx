@@ -10,6 +10,7 @@ import {UserNotFound} from '../../UserNotFound/UserNotFound';
 import {ModalBasic} from '../../Modal/ModalBasic/ModalBasic';
 import {AvatarForm} from '../AvatarForm/AvatarForm';
 import {AuthContext} from '../../../context/Auth/AuthContext';
+import {HeaderProfile} from './HeaderProfile/HeaderProfile';
 
 interface IProps {
   username: string;
@@ -64,9 +65,7 @@ export const Profile = ({username}: IProps) => {
           width={11}
           className="profile__right"
         >
-          <div>
-            Header Profile
-          </div>
+          <HeaderProfile getUser={getUser} auth={authState}/>
 
           <div>
             Followers
