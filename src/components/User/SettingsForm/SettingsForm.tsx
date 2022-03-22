@@ -4,14 +4,28 @@ import {useApolloClient} from '@apollo/client';
 import './SettingsForm.scss';
 
 import {AuthContext} from '../../../context/Auth/AuthContext';
+import {PasswordForm} from '../PasswordForm/PasswordForm';
 
 interface IProps {
   setShowModal: (showModal: boolean) => void;
+  setTitleModal: (title: string) => void;
+  setChildrenModal: (children: JSX.Element | JSX.Element[] | null) => void;
 }
 
-export const SettingsForm = ({setShowModal}: IProps) => {
+export const SettingsForm = ({
+  setShowModal,
+  setTitleModal,
+  setChildrenModal,
+}: IProps) => {
   const {authLogout} = useContext(AuthContext);
   const client = useApolloClient();
+
+  const onChangePassword = () => {
+    setTitleModal('Cambiar tu contraseña');
+    setChildrenModal(
+        <PasswordForm/>,
+    );
+  };
 
   const onLogout = async () => {
     await client.clearStore();
@@ -20,7 +34,7 @@ export const SettingsForm = ({setShowModal}: IProps) => {
 
   return (
     <div className="settings-form">
-      <Button>Cambiar contraseña</Button>
+      <Button onClick={onChangePassword}>Cambiar contraseña</Button>
       <Button>Cambiar email</Button>
       <Button>Descriptión</Button>
       <Button>Sitio web</Button>

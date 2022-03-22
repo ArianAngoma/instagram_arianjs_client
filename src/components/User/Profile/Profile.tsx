@@ -50,7 +50,11 @@ export const Profile = ({username}: IProps) => {
       case 'settings':
         setTitleModal('');
         setChildrenModal(
-            <SettingsForm setShowModal={setShowModal}/>,
+            <SettingsForm
+              setShowModal={setShowModal}
+              setTitleModal={setTitleModal}
+              setChildrenModal={setChildrenModal}
+            />,
         );
         setShowModal(true);
         break;
