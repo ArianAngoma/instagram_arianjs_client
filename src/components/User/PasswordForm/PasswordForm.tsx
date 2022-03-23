@@ -1,7 +1,15 @@
+import {ApolloError, useMutation} from '@apollo/client';
 import {Button, Form} from 'semantic-ui-react';
+import {toast} from 'react-toastify';
 import {FormikValues, useFormik} from 'formik';
 import * as Yup from 'yup';
 import './PasswordForm.scss';
+
+import {UPDATE_USER} from '../../../gql/user';
+
+interface IProps {
+  logout: () => void;
+}
 
 interface IInitialValues {
   currentPassword: string;
@@ -26,10 +34,28 @@ const validationSchema = Yup.object({
       .oneOf([Yup.ref('newPassword')], 'Las contraseñas no son iguales'),
 });
 
-export const PasswordForm = () => {
+export const PasswordForm = ({logout}: IProps) => {
+  const [updateUser] = useMutation(UPDATE_USER);
+
   const onSubmit = (values: FormikValues) => {
-    console.log('enviado');
-    console.log(values);
+    updateUser({
+      variables: {
+        input: {
+          currentPassword: values.currentPassword,
+          newPassword: values.newPassword,
+        },
+      },
+    }).then(({data}) => {
+      if (!data.updateUser) {
+        toast.error('Error al cambiar la contraseña');
+      } else {
+        logout();
+        toast.success('Contraseña actualizada correctamente');
+      }
+    }).catch((error: ApolloError) => {
+      console.log(error);
+      toast.error('Error al cambiar la contraseña');
+    });
   };
 
   const formik = useFormik({

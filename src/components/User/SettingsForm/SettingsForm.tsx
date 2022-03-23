@@ -23,7 +23,7 @@ export const SettingsForm = ({
   const onChangePassword = () => {
     setTitleModal('Cambiar tu contraseña');
     setChildrenModal(
-        <PasswordForm/>,
+        <PasswordForm logout={onLogout}/>,
     );
   };
 
