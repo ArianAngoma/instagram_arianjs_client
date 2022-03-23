@@ -5,6 +5,7 @@ import './SettingsForm.scss';
 
 import {AuthContext} from '../../../context/Auth/AuthContext';
 import {PasswordForm} from '../PasswordForm/PasswordForm';
+import {EmailForm} from '../EmailForm/EmailForm';
 
 interface IProps {
   setShowModal: (showModal: boolean) => void;
@@ -27,6 +28,13 @@ export const SettingsForm = ({
     );
   };
 
+  const onChangeEmail = () => {
+    setTitleModal('Cambiar email');
+    setChildrenModal(
+        <EmailForm setShowModal={setShowModal}/>,
+    );
+  };
+
   const onLogout = async () => {
     await client.clearStore();
     authLogout();
@@ -35,7 +43,7 @@ export const SettingsForm = ({
   return (
     <div className="settings-form">
       <Button onClick={onChangePassword}>Cambiar contraseña</Button>
-      <Button>Cambiar email</Button>
+      <Button onClick={onChangeEmail}>Cambiar email</Button>
       <Button>Descriptión</Button>
       <Button>Sitio web</Button>
       <Button onClick={onLogout}>Cerrar sesión</Button>
