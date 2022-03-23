@@ -3,6 +3,8 @@ import {Button} from 'semantic-ui-react';
 import {useApolloClient} from '@apollo/client';
 import './SettingsForm.scss';
 
+import {IUserState} from '../../../interfaces/interfaces';
+
 import {AuthContext} from '../../../context/Auth/AuthContext';
 import {PasswordForm} from '../PasswordForm/PasswordForm';
 import {EmailForm} from '../EmailForm/EmailForm';
@@ -11,12 +13,14 @@ interface IProps {
   setShowModal: (showModal: boolean) => void;
   setTitleModal: (title: string) => void;
   setChildrenModal: (children: JSX.Element | JSX.Element[] | null) => void;
+  getUser: IUserState;
 }
 
 export const SettingsForm = ({
   setShowModal,
   setTitleModal,
   setChildrenModal,
+  getUser,
 }: IProps) => {
   const {authLogout} = useContext(AuthContext);
   const client = useApolloClient();
@@ -31,7 +35,10 @@ export const SettingsForm = ({
   const onChangeEmail = () => {
     setTitleModal('Cambiar email');
     setChildrenModal(
-        <EmailForm setShowModal={setShowModal}/>,
+        <EmailForm
+          setShowModal={setShowModal}
+          currentEmail={getUser.email}
+        />,
     );
   };
 

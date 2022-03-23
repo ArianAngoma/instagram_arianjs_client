@@ -54,6 +54,7 @@ export const Profile = ({username}: IProps) => {
               setShowModal={setShowModal}
               setTitleModal={setTitleModal}
               setChildrenModal={setChildrenModal}
+              getUser={getUser}
             />,
         );
         setShowModal(true);
