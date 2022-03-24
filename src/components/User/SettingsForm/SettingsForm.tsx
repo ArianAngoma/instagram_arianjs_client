@@ -14,6 +14,7 @@ interface IProps {
   setTitleModal: (title: string) => void;
   setChildrenModal: (children: JSX.Element | JSX.Element[] | null) => void;
   getUser: IUserState;
+  refetch: () => void;
 }
 
 export const SettingsForm = ({
@@ -21,6 +22,7 @@ export const SettingsForm = ({
   setTitleModal,
   setChildrenModal,
   getUser,
+  refetch,
 }: IProps) => {
   const {authLogout} = useContext(AuthContext);
   const client = useApolloClient();
@@ -38,6 +40,7 @@ export const SettingsForm = ({
         <EmailForm
           setShowModal={setShowModal}
           currentEmail={getUser.email}
+          refetch={refetch}
         />,
     );
   };

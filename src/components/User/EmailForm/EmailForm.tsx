@@ -10,9 +10,10 @@ import {toast} from 'react-toastify';
 interface IProps {
   setShowModal: (showModal: boolean) => void;
   currentEmail?: string;
+  refetch: () => void;
 }
 
-export const EmailForm = ({setShowModal, currentEmail}: IProps) => {
+export const EmailForm = ({setShowModal, currentEmail, refetch}: IProps) => {
   const [updateUser] = useMutation(UPDATE_USER);
 
   const formik = useFormik({
@@ -34,6 +35,7 @@ export const EmailForm = ({setShowModal, currentEmail}: IProps) => {
           toast.error('Error al actualizar el email');
         } else {
           toast.success('Email actualizado correctamente');
+          refetch();
           setShowModal(false);
         }
       }).catch((error: ApolloError) => {
