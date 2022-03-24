@@ -8,6 +8,7 @@ import {IUserState} from '../../../interfaces/interfaces';
 import {AuthContext} from '../../../context/Auth/AuthContext';
 import {PasswordForm} from '../PasswordForm/PasswordForm';
 import {EmailForm} from '../EmailForm/EmailForm';
+import {DescriptionForm} from '../DescriptionForm/DescriptionForm';
 
 interface IProps {
   setShowModal: (showModal: boolean) => void;
@@ -45,6 +46,17 @@ export const SettingsForm = ({
     );
   };
 
+  const onChangeDescription = () => {
+    setTitleModal('Actualizar tu biografía');
+    setChildrenModal(
+        <DescriptionForm
+          setShowModal={setShowModal}
+          currentDescription={''}
+          refetch={refetch}
+        />,
+    );
+  };
+
   const onLogout = async () => {
     await client.clearStore();
     authLogout();
@@ -54,7 +66,7 @@ export const SettingsForm = ({
     <div className="settings-form">
       <Button onClick={onChangePassword}>Cambiar contraseña</Button>
       <Button onClick={onChangeEmail}>Cambiar email</Button>
-      <Button>Descriptión</Button>
+      <Button onClick={onChangeDescription}>Descriptión</Button>
       <Button>Sitio web</Button>
       <Button onClick={onLogout}>Cerrar sesión</Button>
       <Button onClick={() => setShowModal(false)}>Cancelar</Button>
