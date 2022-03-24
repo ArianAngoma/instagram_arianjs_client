@@ -93,3 +93,20 @@ export const UPDATE_USER = gql`
         updateUser(input: $input)
     }
 `;
+
+
+export const SEARCH = gql`
+    query ExampleQuery($query: String!) {
+        search(query: $query) {
+            id
+            name
+            username
+            email
+            avatar
+            web
+            description
+            createdAt
+            updatedAt
+        }
+    }
+`;
