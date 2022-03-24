@@ -51,7 +51,7 @@ export const SettingsForm = ({
     setChildrenModal(
         <DescriptionForm
           setShowModal={setShowModal}
-          currentDescription={''}
+          currentDescription={getUser.description}
           refetch={refetch}
         />,
     );
