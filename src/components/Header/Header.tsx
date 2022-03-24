@@ -5,6 +5,7 @@ import Logo from '../../assets/png/instaclone.png';
 import './Header.scss';
 
 import {RightHeader} from './RightHeader/RightHeader';
+import {Search} from './Search/Search';
 
 export const Header = () => {
   return (
@@ -26,7 +27,7 @@ export const Header = () => {
           <Grid.Column
             width={10}
           >
-            <p>Buscador</p>
+            <Search/>
           </Grid.Column>
 
           <Grid.Column
