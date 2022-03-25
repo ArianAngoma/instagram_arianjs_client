@@ -96,7 +96,7 @@ export const UPDATE_USER = gql`
 
 
 export const SEARCH = gql`
-    query ExampleQuery($query: String!) {
+    query Search($query: String) {
         search(query: $query) {
             id
             name
