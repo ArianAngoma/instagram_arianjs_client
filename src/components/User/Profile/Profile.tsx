@@ -12,6 +12,7 @@ import {AvatarForm} from '../AvatarForm/AvatarForm';
 import {AuthContext} from '../../../context/Auth/AuthContext';
 import {HeaderProfile} from './HeaderProfile/HeaderProfile';
 import {SettingsForm} from '../SettingsForm/SettingsForm';
+import {Followers} from './Followers/Followers';
 
 interface IProps {
   username: string;
@@ -90,9 +91,9 @@ export const Profile = ({username}: IProps) => {
             handlerModal={handlerModal}
           />
 
-          <div>
-            Followers
-          </div>
+          <Followers
+            username={username}
+          />
 
           <div className="other">
             <p className="name">{getUser.name}</p>
