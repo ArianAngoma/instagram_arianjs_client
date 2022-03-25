@@ -1,12 +1,12 @@
 import {ApolloError, useMutation, useQuery} from '@apollo/client';
 import {Button} from 'semantic-ui-react';
-import {FOLLOW, IS_FOLLOW} from '../../../../gql/follow';
 import {toast} from 'react-toastify';
 import './HeaderProfile.scss';
 
 import {IUser, IUserState} from '../../../../interfaces/interfaces';
 
 import {ITypeModal} from '../Profile';
+import {FOLLOW, IS_FOLLOW, UN_FOLLOW} from '../../../../gql/follow';
 
 interface IProps {
   getUser: IUser;
@@ -23,10 +23,15 @@ export const HeaderProfile = ({getUser, auth, handlerModal}: IProps) => {
 
   const [follow] = useMutation(FOLLOW);
 
+  const [unFollow] = useMutation(UN_FOLLOW);
+
   const buttonFollow = () => {
     if (data.isFollow) {
       return (
-        <Button className="btn-danger">
+        <Button
+          className="btn-danger"
+          onClick={onUnFollow}
+        >
           Dejar de seguir
         </Button>
       );
@@ -49,13 +54,32 @@ export const HeaderProfile = ({getUser, auth, handlerModal}: IProps) => {
       },
     }).then(({data}) => {
       if (!data.follow) {
-        toast.error(`Error al seguir ${getUser.username}`);
+        toast.error(`Error al seguir a ${getUser.username}`);
       } else {
         toast.success(`Ahora sigues a ${getUser.username}`);
         refetch();
       }
     }).catch((error: ApolloError) => {
-      toast.error(`Error al seguir ${getUser.username}`);
+      console.log(error.message);
+      toast.error(`Error al seguir a ${getUser.username}`);
+    });
+  };
+
+  const onUnFollow = () => {
+    unFollow({
+      variables: {
+        username: getUser.username,
+      },
+    }).then(({data}) => {
+      if (!data.unFollow) {
+        toast.error(`Error al dejar de seguir a ${getUser.username}`);
+      } else {
+        toast.success(`Dejaste de seguir a ${getUser.username}`);
+        refetch();
+      }
+    }).catch((error: ApolloError) => {
+      console.log(error.message);
+      toast.error(`Error al dejar de seguir a ${getUser.username}`);
     });
   };
 

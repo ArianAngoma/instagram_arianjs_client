@@ -11,3 +11,9 @@ export const FOLLOW = gql`
         follow(username: $username)
     }
 `;
+
+export const UN_FOLLOW = gql`
+    mutation Mutation($username: String!) {
+        unFollow(username: $username)
+    }
+`;
