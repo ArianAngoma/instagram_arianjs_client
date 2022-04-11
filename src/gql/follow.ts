@@ -17,3 +17,19 @@ export const UN_FOLLOW = gql`
         unFollow(username: $username)
     }
 `;
+
+export const GET_FOLLOWERS = gql`
+    query GetFollowers($username: String!) {
+        getFollowers(username: $username) {
+            id
+            name
+            username
+            email
+            avatar
+            web
+            description
+            createdAt
+            updatedAt
+        }
+    }
+`;
