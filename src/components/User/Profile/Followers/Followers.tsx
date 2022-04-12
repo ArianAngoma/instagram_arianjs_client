@@ -1,7 +1,8 @@
+import {useEffect} from 'react';
+
 import {useQuery} from '@apollo/client';
 
 import './Followers.scss';
-
 import {GET_FOLLOWERS} from '../../../../gql/follow';
 
 interface IProps {
@@ -12,9 +13,16 @@ export const Followers = ({username}: IProps) => {
   const {
     data: dataFollowers,
     loading: loadingFollowers,
+    startPolling: startPollingFollowers,
+    stopPolling: stopPollingFollowers,
   } = useQuery(GET_FOLLOWERS, {
     variables: {username},
   });
+
+  useEffect(() => {
+    startPollingFollowers(1000);
+    return () => stopPollingFollowers();
+  }, [startPollingFollowers, stopPollingFollowers]);
 
   if (loadingFollowers) return null;
 
