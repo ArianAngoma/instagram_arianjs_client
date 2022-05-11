@@ -5,6 +5,7 @@ import {useQuery} from '@apollo/client';
 import './Followers.scss';
 import {GET_FOLLOWERS} from '../../../../gql/follow';
 import {ModalBasic} from '../../../Modal/ModalBasic/ModalBasic';
+import {ListUsers} from '../../ListUsers/ListUsers';
 
 interface IProps {
   username: string;
@@ -32,9 +33,10 @@ export const Followers = ({username}: IProps) => {
   const openFollowers = () => {
     setTitleModal('Seguidores');
     setChildrenModal(
-        <div>
-          <h3>Lista de seguidores</h3>
-        </div>,
+        <ListUsers
+          users={dataFollowers.getFollowers}
+          setShowModal={setShowModal}
+        />,
     );
     setShowModal(true);
   };
