@@ -1,4 +1,5 @@
 import {Image} from 'semantic-ui-react';
+import {useHistory} from 'react-router-dom';
 
 import './ListUsers.scss';
 import ImageNotFound from '../../../assets/png/avatar.png';
@@ -10,6 +11,13 @@ interface IProps {
 }
 
 export const ListUsers = ({users, setShowModal}: IProps) => {
+  const history = useHistory();
+
+  const goToUser = (username: string) => {
+    setShowModal(false);
+    history.push(`/${username}`);
+  };
+
   return (
     <div>
       {
@@ -20,6 +28,7 @@ export const ListUsers = ({users, setShowModal}: IProps) => {
             <div
               key={index}
               className="list-users__users"
+              onClick={() => goToUser(user.username)}
             >
               <Image src={user.avatar || ImageNotFound} avatar/>
               <div>
