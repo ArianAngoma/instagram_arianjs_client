@@ -55,6 +55,17 @@ export const Followers = ({username}: IProps) => {
     setShowModal(true);
   };
 
+  const openFollowing = () => {
+    setTitleModal('Usuarios seguidos');
+    setChildrenModal(
+        <ListUsers
+          users={dataFollowing.getFollowing}
+          setShowModal={setShowModal}
+        />,
+    );
+    setShowModal(true);
+  };
+
   if (loadingFollowers || loadingFollowing) return null;
 
   return (
@@ -69,7 +80,10 @@ export const Followers = ({username}: IProps) => {
         >
           <span>{dataFollowers.getFollowers.length}</span> seguidores
         </p>
-        <p className="link">
+        <p
+          className="link"
+          onClick={openFollowing}
+        >
           <span>{dataFollowing.getFollowing.length}</span> seguidos
         </p>
       </div>
