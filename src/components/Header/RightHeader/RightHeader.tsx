@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import {useQuery} from '@apollo/client';
 import {Link} from 'react-router-dom';
 import {Icon, Image} from 'semantic-ui-react';
@@ -8,9 +8,11 @@ import './RightHeader.scss';
 
 import {AuthContext} from '../../../context/Auth/AuthContext';
 import {GET_USER} from '../../../gql/user';
+import {ModalUpload} from '../../Modal/ModalUpload/ModalUpload';
 
 export const RightHeader = () => {
   const {authState} = useContext(AuthContext);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const {data, loading, error} = useQuery(GET_USER, {
     variables: {
@@ -23,18 +25,27 @@ export const RightHeader = () => {
   const {getUser} = data;
 
   return (
-    <div className="right-header">
-      <Link to="/">
-        <Icon name="home"/>
-      </Link>
-      <Icon name="plus"/>
-      <Link to={`/${authState.username}`}>
-        <Image
-          src={getUser.avatar ? getUser.avatar : ImageNoFound}
-          avatar
+    <>
+      <div className="right-header">
+        <Link to="/">
+          <Icon name="home"/>
+        </Link>
+        <Icon
+          name="plus"
+          onClick={() => setShowModal(true)}
         />
-      </Link>
-    </div>
+        <Link to={`/${authState.username}`}>
+          <Image
+            src={getUser.avatar ? getUser.avatar : ImageNoFound}
+            avatar
+          />
+        </Link>
+      </div>
+      <ModalUpload
+        show={showModal}
+        setShow={setShowModal}
+      />
+    </>
   );
 };
 
