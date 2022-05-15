@@ -39,6 +39,10 @@ export const ModalUpload = ({show, setShow}: IProps) => {
     setFileUpload(null);
   };
 
+  const onPublish = () => {
+    console.log('Publicando');
+  };
+
   return (
     <Modal
       size="small"
@@ -71,6 +75,17 @@ export const ModalUpload = ({show, setShow}: IProps) => {
               backgroundImage: `url(${fileUpload.preview})`,
             }}
           />
+        )
+      }
+
+      {
+        fileUpload && (
+          <Button
+            className="btn-upload btn-action"
+            onClick={onPublish}
+          >
+            Publicar
+          </Button>
         )
       }
     </Modal>
