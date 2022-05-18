@@ -1,8 +1,11 @@
 import {useCallback, useState} from 'react';
+import {useMutation} from '@apollo/client';
 import {Modal, Icon, Button, Dimmer, Loader} from 'semantic-ui-react';
 import {useDropzone} from 'react-dropzone';
 
 import './ModalUpload.scss';
+
+import {PUBLISH} from '../../../gql/publication';
 
 interface IProps {
   show: boolean;
@@ -17,6 +20,7 @@ interface IStateFileUpload {
 
 export const ModalUpload = ({show, setShow}: IProps) => {
   const [fileUpload, setFileUpload] = useState<IStateFileUpload | null>(null);
+  const [publishMutation, {data, loading, error}] = useMutation(PUBLISH);
 
   const onDrop = useCallback((acceptedFile) => {
     const file = acceptedFile[0];
@@ -40,7 +44,11 @@ export const ModalUpload = ({show, setShow}: IProps) => {
   };
 
   const onPublish = () => {
-    console.log('Publicando');
+    publishMutation({
+      variables: {
+        file: fileUpload?.file,
+      },
+    });
   };
 
   return (

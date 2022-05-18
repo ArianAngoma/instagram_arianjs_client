@@ -44,9 +44,7 @@ const validationSchema = Yup.object({
       .oneOf([Yup.ref('password')], 'Las contraseñas no son iguales'),
 });
 
-export const RegisterForm = (props: IProps) => {
-  const {setShowLogin} = props;
-
+export const RegisterForm = ({setShowLogin}: IProps) => {
   const [register] = useMutation(REGISTER);
 
   const onSubmit = (values: FormikValues) => {

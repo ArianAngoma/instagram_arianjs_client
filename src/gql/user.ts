@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 export const REGISTER = gql`
-    mutation Register($input: UserInput!) {
+    mutation registerMutation($input: UserInput!) {
         register(input: $input) {
             user {
                 id
@@ -20,7 +20,7 @@ export const REGISTER = gql`
 `;
 
 export const LOGIN = gql`
-    mutation Login($input: LoginInput!) {
+    mutation loginMutation($input: LoginInput!) {
         login(input: $input) {
             user {
                 id
@@ -39,7 +39,7 @@ export const LOGIN = gql`
 `;
 
 export const RENEWTOKEN = gql`
-    mutation RenewToken {
+    mutation renewTokenMutation {
         renewToken {
             user {
                 id
@@ -74,7 +74,7 @@ export const GET_USER = gql`
 `;
 
 export const UPDATE_AVATAR = gql`
-    mutation Mutation($file: Upload!) {
+    mutation updateAvatarMutation($file: Upload!) {
         updateAvatar(file: $file) {
             status
             urlAvatar
@@ -83,13 +83,13 @@ export const UPDATE_AVATAR = gql`
 `;
 
 export const DELETE_AVATAR = gql`
-    mutation Mutation {
+    mutation deleteAvatarMutation {
         deleteAvatar
     }
 `;
 
 export const UPDATE_USER = gql`
-    mutation Mutation($input: updateUserInput!) {
+    mutation updateUserMutation($input: updateUserInput!) {
         updateUser(input: $input)
     }
 `;

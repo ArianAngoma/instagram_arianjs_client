@@ -7,13 +7,13 @@ export const IS_FOLLOW = gql`
 `;
 
 export const FOLLOW = gql`
-    mutation Mutation($username: String!) {
+    mutation followMutation($username: String!) {
         follow(username: $username)
     }
 `;
 
 export const UN_FOLLOW = gql`
-    mutation Mutation($username: String!) {
+    mutation unFollowMutation($username: String!) {
         unFollow(username: $username)
     }
 `;
