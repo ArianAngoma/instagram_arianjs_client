@@ -1,7 +1,8 @@
 import {useCallback, useState} from 'react';
-import {useMutation} from '@apollo/client';
+import {ApolloError, useMutation} from '@apollo/client';
 import {Modal, Icon, Button, Dimmer, Loader} from 'semantic-ui-react';
 import {useDropzone} from 'react-dropzone';
+import {toast} from 'react-toastify';
 
 import './ModalUpload.scss';
 
@@ -20,7 +21,7 @@ interface IStateFileUpload {
 
 export const ModalUpload = ({show, setShow}: IProps) => {
   const [fileUpload, setFileUpload] = useState<IStateFileUpload | null>(null);
-  const [publishMutation, {data, loading, error}] = useMutation(PUBLISH);
+  const [publishMutation] = useMutation(PUBLISH);
 
   const onDrop = useCallback((acceptedFile) => {
     const file = acceptedFile[0];
@@ -48,6 +49,11 @@ export const ModalUpload = ({show, setShow}: IProps) => {
       variables: {
         file: fileUpload?.file,
       },
+    }).then((data) => {
+      console.log(data);
+    }).catch((error: ApolloError) => {
+      console.log(error);
+      toast.error('Error al publicar');
     });
   };
 
