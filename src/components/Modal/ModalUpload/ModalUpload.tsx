@@ -21,6 +21,7 @@ interface IStateFileUpload {
 
 export const ModalUpload = ({show, setShow}: IProps) => {
   const [fileUpload, setFileUpload] = useState<IStateFileUpload | null>(null);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [publishMutation] = useMutation(PUBLISH);
 
   const onDrop = useCallback((acceptedFile) => {
@@ -40,20 +41,29 @@ export const ModalUpload = ({show, setShow}: IProps) => {
   });
 
   const onClose = () => {
-    setShow(false);
+    setIsLoading(false);
     setFileUpload(null);
+    setShow(false);
   };
 
   const onPublish = () => {
+    setIsLoading(true);
     publishMutation({
       variables: {
         file: fileUpload?.file,
       },
-    }).then((data) => {
-      console.log(data);
+    }).then(({data}) => {
+      if (!data.publish.status) {
+        toast.warning('Error en la publicación');
+        onClose();
+      } else {
+        toast.success('Publicado correctamente');
+        onClose();
+      }
     }).catch((error: ApolloError) => {
       console.log(error);
       toast.error('Error al publicar');
+      onClose();
     });
   };
 
@@ -100,6 +110,18 @@ export const ModalUpload = ({show, setShow}: IProps) => {
           >
             Publicar
           </Button>
+        )
+      }
+
+      {
+        isLoading && (
+          <Dimmer
+            active
+            className="publishing"
+          >
+            <Loader/>
+            <p>Publicando...</p>
+          </Dimmer>
         )
       }
     </Modal>
