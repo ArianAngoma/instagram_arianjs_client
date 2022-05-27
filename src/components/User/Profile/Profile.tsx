@@ -16,11 +16,12 @@ import {Followers} from './Followers/Followers';
 
 interface IProps {
   username: string;
+  totalPublications: number;
 }
 
 export type ITypeModal = 'avatar' | 'settings';
 
-export const Profile = ({username}: IProps) => {
+export const Profile = ({username, totalPublications}: IProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [titleModal, setTitleModal] = useState<string>('');
   const [
@@ -93,6 +94,7 @@ export const Profile = ({username}: IProps) => {
 
           <Followers
             username={username}
+            totalPublications={totalPublications}
           />
 
           <div className="other">

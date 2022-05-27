@@ -9,9 +9,10 @@ import {ListUsers} from '../../ListUsers/ListUsers';
 
 interface IProps {
   username: string;
+  totalPublications: number;
 }
 
-export const Followers = ({username}: IProps) => {
+export const Followers = ({username, totalPublications}: IProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [titleModal, setTitleModal] = useState<string>('');
   const [childrenModal, setChildrenModal] = useState<any>(null);
@@ -72,7 +73,7 @@ export const Followers = ({username}: IProps) => {
     <>
       <div className="followers">
         <p>
-          <span>50</span> publicaciones
+          <span>{totalPublications}</span> publicaciones
         </p>
         <p
           className="link"
