@@ -24,3 +24,12 @@ export interface IUserState extends Partial<IUser> {
 export interface IParams {
   username: string;
 }
+
+export interface IPublications {
+  id: string;
+  userId: string;
+  file: string;
+  fileType: string;
+  createdAt: string;
+  updatedAt: string;
+}
