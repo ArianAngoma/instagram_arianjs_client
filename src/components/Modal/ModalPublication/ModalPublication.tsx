@@ -23,18 +23,19 @@ export const ModalPublication = ({
       onClose={onClose}
       className="modal-publication"
     >
-      <Grid.Column
-        className="modal-publication__left"
-        width={10}
-      >
-        <h3>Imagen</h3>
-      </Grid.Column>
-      <Grid.Column
-        className="modal-publication__right"
-        width={6}
-      >
-        <h3>Comentarios</h3>
-      </Grid.Column>
+      <Grid>
+        <Grid.Column
+          className="modal-publication__left"
+          width={10}
+          style={{backgroundImage: `url("${publication.file}")`}}
+        />
+        <Grid.Column
+          className="modal-publication__right"
+          width={6}
+        >
+          <h3>Comentarios</h3>
+        </Grid.Column>
+      </Grid>
     </Modal>
   );
 };
