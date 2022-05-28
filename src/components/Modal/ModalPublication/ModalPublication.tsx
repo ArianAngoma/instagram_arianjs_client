@@ -3,6 +3,7 @@ import {Modal, Grid} from 'semantic-ui-react';
 import './ModalPublication.scss';
 
 import {IPublication} from '../../../interfaces/interfaces';
+import {CommentForm} from './CommentForm/CommentForm';
 
 interface IProps {
   showModal: boolean;
@@ -33,7 +34,11 @@ export const ModalPublication = ({
           className="modal-publication__right"
           width={6}
         >
-          <h3>Comentarios</h3>
+          <div>Comentarios</div>
+
+          <div>Actions</div>
+
+          <CommentForm publication={publication}/>
         </Grid.Column>
       </Grid>
     </Modal>
