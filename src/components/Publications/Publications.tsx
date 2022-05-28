@@ -2,11 +2,11 @@ import {Grid} from 'semantic-ui-react';
 
 import './Publications.scss';
 
-import {IPublications} from '../../interfaces/interfaces';
+import {IPublication} from '../../interfaces/interfaces';
 import {PreviewPublication} from './PreviewPublication/PreviewPublication';
 
 interface IProps {
-  publications: IPublications[];
+  publications: IPublication[];
 }
 
 export const Publications = ({publications}: IProps) => {

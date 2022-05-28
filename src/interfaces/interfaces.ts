@@ -25,7 +25,7 @@ export interface IParams {
   username: string;
 }
 
-export interface IPublications {
+export interface IPublication {
   id: string;
   userId: string;
   file: string;
