@@ -1,3 +1,4 @@
+import {ApolloError, useMutation} from '@apollo/client';
 import {FormikValues, useFormik} from 'formik';
 import * as Yup from 'yup';
 
@@ -5,6 +6,7 @@ import './CommentForm.scss';
 
 import {ICommentInput, IPublication} from '../../../../interfaces/interfaces';
 import {Button, Form} from 'semantic-ui-react';
+import {ADD_COMMENT} from '../../../../gql/comment';
 
 interface IProps {
   publication: IPublication;
@@ -19,8 +21,21 @@ const validationSchema = Yup.object({
 });
 
 export const CommentForm = ({publication}: IProps) => {
+  const [addComment] = useMutation(ADD_COMMENT);
+
   const onSubmit = (values: FormikValues) => {
-    console.log(values);
+    addComment({
+      variables: {
+        input: {
+          comment: values.comment,
+          publicationId: publication.id,
+        },
+      },
+    }).then(({data}) => {
+      formik.handleReset(initialValues);
+    }).catch((error: ApolloError) => {
+      console.log(error.message);
+    });
   };
 
   const formik = useFormik({
