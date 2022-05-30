@@ -33,3 +33,14 @@ export interface IPublication {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IComment {
+  id: string;
+  userId: string;
+  publicationId: string;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type ICommentInput = Pick<IComment, 'comment'>
