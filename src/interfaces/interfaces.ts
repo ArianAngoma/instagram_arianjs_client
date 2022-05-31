@@ -36,7 +36,7 @@ export interface IPublication {
 
 export interface IComment {
   id: string;
-  userId: string;
+  author: IUser;
   publicationId: string;
   comment: string;
   createdAt: string;
