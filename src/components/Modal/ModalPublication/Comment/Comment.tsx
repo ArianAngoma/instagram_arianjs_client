@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
 import {Image} from 'semantic-ui-react';
@@ -13,15 +14,18 @@ interface IProps {
 }
 
 export const Comment = ({publication}: IProps) => {
-  const {data, loading} = useQuery(GET_COMMENTS, {
+  const {data, loading, startPolling, stopPolling} = useQuery(GET_COMMENTS, {
     variables: {
       publicationId: publication.id,
     },
   });
 
-  if (loading) return null;
+  useEffect(() => {
+    startPolling(1000);
+    return () => stopPolling();
+  }, [startPolling, stopPolling]);
 
-  console.log(data);
+  if (loading) return null;
 
   return (
     <div className="comments">
