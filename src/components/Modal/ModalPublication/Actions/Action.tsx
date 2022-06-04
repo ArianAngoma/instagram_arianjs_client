@@ -3,14 +3,15 @@ import {Icon} from 'semantic-ui-react';
 
 import './Actions.scss';
 import {IPublication} from '../../../../interfaces/interfaces';
-import {ADD_LIKE, IS_LIKE} from '../../../../gql/like';
+import {ADD_LIKE, DELETE_LIKE, IS_LIKE} from '../../../../gql/like';
 
 interface IProps {
   publication: IPublication;
 }
 
 export const Action = ({publication}: IProps) => {
-  const [addLike] = useMutation(ADD_LIKE);
+  const [AddLike] = useMutation(ADD_LIKE);
+  const [DeleteLike] = useMutation(DELETE_LIKE);
   const {data, loading, refetch} = useQuery(IS_LIKE, {
     variables: {
       publicationId: publication.id,
@@ -18,7 +19,7 @@ export const Action = ({publication}: IProps) => {
   });
 
   const onAddLike = () => {
-    addLike({
+    AddLike({
       variables: {
         publicationId: publication.id,
       },
@@ -31,7 +32,16 @@ export const Action = ({publication}: IProps) => {
   };
 
   const onDeleteLike = () => {
-    console.log('delete');
+    DeleteLike({
+      variables: {
+        publicationId: publication.id,
+      },
+    }).then(({data}) => {
+      console.log(data);
+      refetch();
+    }).catch((error: ApolloError) => {
+      console.log(error.message);
+    });
   };
 
   if (loading) return null;
