@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {ApolloError, useMutation, useQuery} from '@apollo/client';
 import {Icon} from 'semantic-ui-react';
 
@@ -15,6 +16,8 @@ interface IProps {
 }
 
 export const Action = ({publication}: IProps) => {
+  const [loadingAction, setLoadingAction] = useState<boolean>(false);
+
   const [AddLike] = useMutation(ADD_LIKE);
   const [DeleteLike] = useMutation(DELETE_LIKE);
 
@@ -39,6 +42,7 @@ export const Action = ({publication}: IProps) => {
   });
 
   const onAddLike = () => {
+    setLoadingAction(true);
     AddLike({
       variables: {
         publicationId: publication.id,
@@ -47,12 +51,15 @@ export const Action = ({publication}: IProps) => {
       console.log(data);
       refetchIsLike();
       refetchCountLike();
+      setLoadingAction(false);
     }).catch((error: ApolloError) => {
       console.log(error.message);
+      setLoadingAction(false);
     });
   };
 
   const onDeleteLike = () => {
+    setLoadingAction(true);
     DeleteLike({
       variables: {
         publicationId: publication.id,
@@ -61,9 +68,21 @@ export const Action = ({publication}: IProps) => {
       console.log(data);
       refetchIsLike();
       refetchCountLike();
+      setLoadingAction(false);
     }).catch((error: ApolloError) => {
       console.log(error.message);
+      setLoadingAction(false);
     });
+  };
+
+  const onAction = () => {
+    if (!loadingAction) {
+      if (dataIsLike.isLike) {
+        onDeleteLike();
+      } else {
+        onAddLike();
+      }
+    }
   };
 
   if (loadingIsLike || loadingCountLike) return null;
@@ -73,7 +92,7 @@ export const Action = ({publication}: IProps) => {
       <Icon
         className={dataIsLike.isLike ? 'like active' : 'like'}
         name={dataIsLike.isLike ? 'heart' : 'heart outline'}
-        onClick={dataIsLike.isLike ? onDeleteLike : onAddLike}
+        onClick={onAction}
       />
       {/* eslint-disable-next-line max-len */}
       {dataCountLikes.countLikes} {dataCountLikes.countLikes === 1 ? 'like' : 'likes'}
