@@ -1,9 +1,9 @@
-import {ApolloError, useMutation} from '@apollo/client';
+import {ApolloError, useMutation, useQuery} from '@apollo/client';
 import {Icon} from 'semantic-ui-react';
 
 import './Actions.scss';
 import {IPublication} from '../../../../interfaces/interfaces';
-import {ADD_LIKE} from '../../../../gql/like';
+import {ADD_LIKE, IS_LIKE} from '../../../../gql/like';
 
 interface IProps {
   publication: IPublication;
@@ -11,6 +11,11 @@ interface IProps {
 
 export const Action = ({publication}: IProps) => {
   const [addLike] = useMutation(ADD_LIKE);
+  const {data, loading} = useQuery(IS_LIKE, {
+    variables: {
+      publicationId: publication.id,
+    },
+  });
 
   const onAddLike = () => {
     addLike({
@@ -24,12 +29,18 @@ export const Action = ({publication}: IProps) => {
     });
   };
 
+  const onDeleteLike = () => {
+    console.log('delete');
+  };
+
+  if (loading) return null;
+
   return (
     <div className="actions">
       <Icon
-        className="like active"
-        name="heart"
-        onClick={onAddLike}
+        className={data.isLike ? 'like active' : 'like'}
+        name={data.isLike ? 'heart' : 'heart outline'}
+        onClick={data.isLike ? onDeleteLike : onAddLike}
       />
       21 Likes
     </div>
