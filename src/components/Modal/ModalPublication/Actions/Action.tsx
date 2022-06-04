@@ -11,7 +11,7 @@ interface IProps {
 
 export const Action = ({publication}: IProps) => {
   const [addLike] = useMutation(ADD_LIKE);
-  const {data, loading} = useQuery(IS_LIKE, {
+  const {data, loading, refetch} = useQuery(IS_LIKE, {
     variables: {
       publicationId: publication.id,
     },
@@ -24,6 +24,7 @@ export const Action = ({publication}: IProps) => {
       },
     }).then(({data}) => {
       console.log(data);
+      refetch();
     }).catch((error: ApolloError) => {
       console.log(error.message);
     });
