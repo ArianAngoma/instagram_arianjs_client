@@ -5,6 +5,7 @@ import './ModalPublication.scss';
 import {IPublication} from '../../../interfaces/interfaces';
 import {CommentForm} from './CommentForm/CommentForm';
 import {Comment} from './Comment/Comment';
+import {Action} from './Actions/Action';
 
 interface IProps {
   showModal: boolean;
@@ -37,7 +38,7 @@ export const ModalPublication = ({
         >
           <Comment publication={publication}/>
 
-          <div>Actions</div>
+          <Action publication={publication}/>
 
           <CommentForm publication={publication}/>
         </Grid.Column>
