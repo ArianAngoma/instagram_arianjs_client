@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useQuery} from '@apollo/client';
 import {Image} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
@@ -21,7 +21,17 @@ export const Feed = () => {
     setPublicationSelect,
   ] = useState<IPublication | null>(null);
 
-  const {data, loading} = useQuery(GET_PUBLICATIONS_FOLLOWING);
+  const {
+    data,
+    loading,
+    startPolling,
+    stopPolling,
+  } = useQuery(GET_PUBLICATIONS_FOLLOWING);
+
+  useEffect(() => {
+    startPolling(1000);
+    return () => stopPolling();
+  }, [startPolling, stopPolling]);
 
   if (loading) return null;
 
