@@ -3,7 +3,7 @@ import {Container, Grid} from 'semantic-ui-react';
 import './Home.scss';
 
 import {LayoutBasic} from '../../layouts/LayoutBasic';
-import {Feed} from '../../components';
+import {Feed, UsersNotFollowing} from '../../components';
 
 export const Home = () => {
   return (
@@ -23,7 +23,7 @@ export const Home = () => {
             className="home__right"
             width={5}
           >
-            <h2>Usuarios no seguidos</h2>
+            <UsersNotFollowing/>
           </Grid.Column>
         </Grid>
       </Container>
