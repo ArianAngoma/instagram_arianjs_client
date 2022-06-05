@@ -3,6 +3,7 @@ import {Container, Grid} from 'semantic-ui-react';
 import './Home.scss';
 
 import {LayoutBasic} from '../../layouts/LayoutBasic';
+import {Feed} from '../../components';
 
 export const Home = () => {
   return (
@@ -15,7 +16,7 @@ export const Home = () => {
             className="home__left"
             width={11}
           >
-            <h2>Feed</h2>
+            <Feed/>
           </Grid.Column>
 
           <Grid.Column
