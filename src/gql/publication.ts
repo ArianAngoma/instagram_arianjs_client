@@ -13,7 +13,17 @@ export const GET_PUBLICATIONS = gql`
     query GetPublications($username: String!) {
         getPublications(username: $username) {
             id
-            userId
+            author {
+                id
+                name
+                username
+                email
+                avatar
+                web
+                description
+                createdAt
+                updatedAt
+            }
             file
             fileType
             createdAt

@@ -11,7 +11,8 @@ export interface IUser {
   updatedAt: string;
 }
 
-export interface IRegisterUserInput extends Pick<IUser, 'name' | 'username' | 'email' | 'password'> {
+export interface IRegisterUserInput
+  extends Pick<IUser, 'name' | 'username' | 'email' | 'password'> {
   repeatPassword: string;
 }
 
@@ -27,7 +28,7 @@ export interface IParams {
 
 export interface IPublication {
   id: string;
-  userId: string;
+  author: IUser;
   file: string;
   fileType: string;
   createdAt: string;
